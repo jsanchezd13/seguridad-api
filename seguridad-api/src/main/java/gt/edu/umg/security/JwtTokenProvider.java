@@ -65,7 +65,7 @@ public class JwtTokenProvider {
         X509EncodedKeySpec publicSpec = new X509EncodedKeySpec(publicKeyBytes);
         this.publicKey = keyFactory.generatePublic(publicSpec);
 
-        System.out.println("✅ Llaves RSA cargadas correctamente");
+        System.out.println("Llaves RSA cargadas correctamente");
     }
 
     public String generateToken(Authentication authentication) {
@@ -83,7 +83,7 @@ public class JwtTokenProvider {
                 .subject(username)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(privateKey)  // ✅ FIRMA CON RSA
+                .signWith(privateKey)  // FIRMA CON RSA
                 .compact();
     }
 
@@ -102,7 +102,7 @@ public class JwtTokenProvider {
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
-                .verifyWith(publicKey)  // ✅ USA LLAVE PÚBLICA PARA VALIDAR
+                .verifyWith(publicKey)  // USA LLAVE PÚBLICA PARA VALIDAR
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
