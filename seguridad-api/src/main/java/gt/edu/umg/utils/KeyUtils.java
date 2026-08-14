@@ -36,8 +36,8 @@ public class KeyUtils {
             writer.write(publicKeyPEM);
         }
 
-        System.out.println("✅ Llaves generadas exitosamente!");
-        System.out.println("📁 Ubicación: src/main/resources/keys/");
+        System.out.println("Llaves generadas exitosamente!");
+        System.out.println("Ubicación: src/main/resources/keys/");
     }
 
     public static void main(String[] args) throws Exception {
