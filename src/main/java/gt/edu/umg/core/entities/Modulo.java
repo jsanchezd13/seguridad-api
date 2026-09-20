@@ -1,5 +1,6 @@
 package gt.edu.umg.core.entities;
-
+import java.util.HashSet;
+import java.util.Set;
 import jakarta.persistence.*;
 
 @Entity
@@ -33,6 +34,9 @@ public class Modulo {
     @JoinColumn(name = "sistema_id")
     private Sistema sistema;
 
+    @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
+    private Set<Permiso> permisos = new HashSet<>();
+
     // Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -57,4 +61,7 @@ public class Modulo {
 
     public Sistema getSistema() { return sistema; }
     public void setSistema(Sistema sistema) { this.sistema = sistema; }
+
+     public Set<Permiso> getPermisos() { return permisos; }
+    public void setPermisos(Set<Permiso> permisos) { this.permisos = permisos; }
 }

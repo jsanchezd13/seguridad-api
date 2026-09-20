@@ -11,9 +11,9 @@ public interface ModuloRepository extends JpaRepository<Modulo, Long> {
 
     @Query("""
         SELECT DISTINCT m FROM Modulo m
-        JOIN Permiso p ON p.modulo.id = m.id
-        JOIN Rol r JOIN r.permisos rp ON rp.id = p.id
-        JOIN Usuario u JOIN u.roles ur ON ur.id = r.id
+        JOIN m.permisos p
+        JOIN p.roles r
+        JOIN r.usuarios u
         WHERE u.username = :username AND m.activo = true
         ORDER BY m.id
     """)

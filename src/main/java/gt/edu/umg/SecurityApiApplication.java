@@ -1,10 +1,20 @@
-package gt.edu.umg.seguridad;
+package gt.edu.umg;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages = "gt.edu.umg")
+@SpringBootApplication
+@ComponentScan(basePackages = {
+    "gt.edu.umg",
+    "gt.edu.umg.seguridad",
+    "gt.edu.umg.security",
+    "gt.edu.umg.config",
+    "gt.edu.umg.controller",
+    "gt.edu.umg.service",
+    "gt.edu.umg.dao"
+})
 @EnableJpaRepositories(basePackages = "gt.edu.umg.dao")
 public class SecurityApiApplication {
 

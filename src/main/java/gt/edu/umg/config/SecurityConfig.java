@@ -60,20 +60,46 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(csrf -> csrf.disable())
-            .formLogin(form -> form.disable())
-            .httpBasic(basic -> basic.disable())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                .anyRequest().authenticated()
-            )
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .headers(headers -> headers.frameOptions(frame -> frame.disable()));
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        return http.build();
-    }
+    http
+        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
+        .csrf(csrf -> csrf.disable())
+
+        .formLogin(form -> form.disable())
+
+        .httpBasic(basic -> basic.disable())
+
+        .sessionManagement(session ->
+            session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        )
+
+        .authorizeHttpRequests(auth -> auth
+
+            // Solo login es público
+            .requestMatchers("/auth/login").permitAll()
+
+            // Documentación Swagger pública
+            .requestMatchers(
+                "/v3/api-docs/**",
+                "/swagger-ui/**",
+                "/swagger-ui.html"
+            ).permitAll()
+
+            // Todos los demás endpoints requieren JWT
+            .anyRequest().authenticated()
+        )
+
+        .addFilterBefore(
+            jwtAuthenticationFilter,
+            UsernamePasswordAuthenticationFilter.class
+        )
+
+        .headers(headers ->
+            headers.frameOptions(frame -> frame.disable())
+        );
+
+    return http.build();
+}
 }
