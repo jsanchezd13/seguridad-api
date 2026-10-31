@@ -43,10 +43,10 @@ public class JwtTokenProvider {
     @PostConstruct
     public void init() throws Exception {
         System.out.println("Cargando llave privada RSA desde: " + privateKeyPath);
+
         
         // Cargar llave privada
-        ClassPathResource privateResource = new ClassPathResource(privateKeyPath);
-        String privateKeyPEM = new String(Files.readAllBytes(privateResource.getFile().toPath()))
+        String privateKeyPEM = leerPem(new ClassPathResource(privateKeyPath))
                 .replace("-----BEGIN PRIVATE KEY-----", "")
                 .replace("-----END PRIVATE KEY-----", "")
                 .replaceAll("\\s", "");
@@ -57,9 +57,8 @@ public class JwtTokenProvider {
         this.privateKey = keyFactory.generatePrivate(privateSpec);
 
         // Cargar llave pública
-        System.out.println("📂 Cargando llave pública RSA desde: " + publicKeyPath);
-        ClassPathResource publicResource = new ClassPathResource(publicKeyPath);
-        String publicKeyPEM = new String(Files.readAllBytes(publicResource.getFile().toPath()))
+        System.out.println("Cargando llave pública RSA desde: " + publicKeyPath);
+        String publicKeyPEM = leerPem(new ClassPathResource(publicKeyPath))
                 .replace("-----BEGIN PUBLIC KEY-----", "")
                 .replace("-----END PUBLIC KEY-----", "")
                 .replaceAll("\\s", "");
@@ -68,7 +67,13 @@ public class JwtTokenProvider {
         X509EncodedKeySpec publicSpec = new X509EncodedKeySpec(publicKeyBytes);
         this.publicKey = keyFactory.generatePublic(publicSpec);
 
-        System.out.println("laves RSA cargadas correctamente");
+        System.out.println("Llaves RSA cargadas correctamente");
+    }
+
+    private String leerPem(ClassPathResource resource) throws Exception {
+        try (var in = resource.getInputStream()) {
+            return new String(in.readAllBytes());
+        }
     }
 
     public String generateToken(Authentication authentication) {

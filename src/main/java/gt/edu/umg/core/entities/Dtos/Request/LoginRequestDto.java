@@ -8,6 +8,9 @@ public record LoginRequestDto(
     String username,
 
     @NotBlank(message = "La contraseña es obligatoria")
-    String password
+    String password,
+    
+    @NotBlank(message = "El token de seguridad es obligatorio")
+    String turnstileToken
 
 ) {}

@@ -36,6 +36,16 @@ public class Usuario {
     @Column(name = "activo")
     private Boolean activo = true;
 
+    @Column(name = "intentos_fallidos")
+    private Integer intentosFallidos = 0;
+
+    @Column(name = "cuenta_bloqueada")
+    private Boolean cuentaBloqueada = false;
+
+    @Column(name = "fecha_desbloqueo")
+    private LocalDateTime fechaDesbloqueo;
+
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "usuario_rol",
@@ -52,7 +62,10 @@ public class Usuario {
     @UpdateTimestamp
     private LocalDateTime fechaActualizacion;
 
-    // Getters y Setters
+    // ==========================================
+    // GETTERS Y SETTERS
+    // ==========================================
+    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -70,6 +83,16 @@ public class Usuario {
 
     public Boolean getActivo() { return activo; }
     public void setActivo(Boolean activo) { this.activo = activo; }
+
+    // Getters y Setters de Seguridad
+    public Integer getIntentosFallidos() { return intentosFallidos; }
+    public void setIntentosFallidos(Integer intentosFallidos) { this.intentosFallidos = intentosFallidos; }
+
+    public Boolean getCuentaBloqueada() { return cuentaBloqueada; }
+    public void setCuentaBloqueada(Boolean cuentaBloqueada) { this.cuentaBloqueada = cuentaBloqueada; }
+
+    public LocalDateTime getFechaDesbloqueo() { return fechaDesbloqueo; }
+    public void setFechaDesbloqueo(LocalDateTime fechaDesbloqueo) { this.fechaDesbloqueo = fechaDesbloqueo; }
 
     public Set<Rol> getRoles() { return roles; }
     public void setRoles(Set<Rol> roles) { this.roles = roles; }
